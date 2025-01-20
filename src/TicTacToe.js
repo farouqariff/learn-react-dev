@@ -1,10 +1,11 @@
 import { useState } from "react";
-import "./App.css"; // Add CSS for highlighting and styling.
 
 function Square({ value, onSquareClick, isHighlighted }) {
   return (
     <button
-      className={`square ${isHighlighted ? "highlight" : ""}`}
+      className={`square w-16 h-16 border border-gray-300 text-2xl font-bold flex items-center justify-center transition-all duration-300 hover:bg-gray-100 ${
+        isHighlighted ? "bg-yellow-300 animate-pulse" : "bg-white"
+      }`}
       onClick={onSquareClick}
     >
       {value}
@@ -25,20 +26,22 @@ function Board({ xIsNext, squares, onPlay, winningSquares }) {
   const winner = calculateWinner(squares);
   let status;
   if (winner) {
-    status = "Winner: " + winner.player;
+    status = `Winner: ${winner.player}`;
   } else if (!squares.includes(null)) {
     status = "The game is a draw!";
   } else {
-    status = "Next player: " + (xIsNext ? "X" : "O");
+    status = `Next player: ${xIsNext ? "X" : "O"}`;
   }
 
   return (
     <>
-      <div className="status">{status}</div>
+      <div className="status text-lg font-semibold mb-4 text-center">
+        {status}
+      </div>
       {Array(3)
         .fill(null)
         .map((_, row) => (
-          <div className="board-row" key={row}>
+          <div className="board-row flex" key={row}>
             {Array(3)
               .fill(null)
               .map((_, col) => {
@@ -86,6 +89,11 @@ export default function Game() {
     setIsAscending(!isAscending);
   }
 
+  function resetSquare() {
+    setHistory([{ squares: Array(9).fill(null), location: null }]);
+    setCurrentMove(0);
+  }
+
   const moves = history.map((step, move) => {
     const col = step.location % 3;
     const row = Math.floor(step.location / 3);
@@ -95,11 +103,16 @@ export default function Game() {
         : "Go to game start";
 
     return (
-      <li key={move}>
+      <li key={move} className="mb-2">
         {move === currentMove ? (
-          <span>You are at move #{move}</span>
+          <span className="font-semibold">You are at move #{move}</span>
         ) : (
-          <button onClick={() => jumpTo(move)}>{description}</button>
+          <button
+            className="text-blue-500 hover:underline"
+            onClick={() => jumpTo(move)}
+          >
+            {description}
+          </button>
         )}
       </li>
     );
@@ -108,8 +121,8 @@ export default function Game() {
   const sortedMoves = isAscending ? moves : moves.slice().reverse();
 
   return (
-    <div className="game">
-      <div className="game-board">
+    <div className="game flex flex-col items-center mt-10">
+      <div className="game-board mb-8">
         <Board
           xIsNext={xIsNext}
           squares={currentSquares}
@@ -117,11 +130,24 @@ export default function Game() {
           winningSquares={winner ? winner.line : []}
         />
       </div>
-      <div className="game-info">
-        <button onClick={toggleSort}>
-          Sort {isAscending ? "Descending" : "Ascending"}
-        </button>
-        <ol>{sortedMoves}</ol>
+      <div className="game-info text-center">
+        {/* Button Container */}
+        <div className="mb-6 flex justify-center space-x-4">
+          <button
+            onClick={toggleSort}
+            className="px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 transition-all"
+          >
+            Sort {isAscending ? "Descending" : "Ascending"}
+          </button>
+          <button
+            onClick={resetSquare}
+            className="px-4 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600 transition-all"
+          >
+            Reset
+          </button>
+        </div>
+        {/* Moves List */}
+        <ol className="list-decimal list-inside text-left">{sortedMoves}</ol>
       </div>
     </div>
   );
