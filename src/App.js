@@ -7,6 +7,9 @@ import QueueState from "./QueueState";
 import Canvas from "./Canvas";
 import ShoppingCart from "./ShoppingCart";
 import TaskApp from "./TaskApp";
+import Picture from "./Picture.js";
+import EditProfile from "./EditProfile.js";
+import Test from "./Test.js";
 
 function App() {
   return (
@@ -26,6 +29,9 @@ function App() {
         <Route path="/canvas" element={<Canvas />} />
         <Route path="/shopping-cart" element={<ShoppingCart />} />
         <Route path="/task-app" element={<TaskApp />} />
+        <Route path="/picture" element={<Picture />} />
+        <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/test" element={<Test />} />
       </Routes>
     </Router>
   );
