@@ -1,62 +1,53 @@
-// import { useState } from "react";
-import { useImmer } from "use-immer";
-import AddTodo from "./AddTodo.js";
+import { useState } from "react";
+import AddTask from "./AddTask.js";
 import TaskList from "./TaskList.js";
 
-let nextId = 3;
-const initialTodos = [
-  { id: 0, title: "Buy milk", done: true },
-  { id: 1, title: "Eat tacos", done: false },
-  { id: 2, title: "Brew tea", done: false },
-];
-
 export default function TaskApp() {
-  //   const [todos, setTodos] = useState(initialTodos);
-  const [todos, updateTodos] = useImmer(initialTodos);
+  const [tasks, setTasks] = useState(initialTasks);
 
-  function handleAddTodo(title) {
-    // setTodos([...todos, { id: nextId++, title: title, done: false }]);
-    updateTodos((todo) => {
-      todo.push({
+  function handleAddTask(text) {
+    setTasks([
+      ...tasks,
+      {
         id: nextId++,
-        title: title,
+        text: text,
         done: false,
-      });
-    });
+      },
+    ]);
   }
 
-  function handleChangeTodo(nextTodo) {
-    // setTodos(
-    //   todos.map((todo) => {
-    //     if (todo.id === nextTodo.id) {
-    //       return { ...todo, title: nextTodo.title, done: nextTodo.done };
-    //     } else {
-    //       return todo;
-    //     }
-    //   })
-    // );
-    updateTodos((draft) => {
-      const todo = draft.find((t) => t.id === nextTodo.id);
-      todo.title = nextTodo.title;
-      todo.done = nextTodo.done;
-    });
+  function handleChangeTask(task) {
+    setTasks(
+      tasks.map((t) => {
+        if (t.id === task.id) {
+          return task;
+        } else {
+          return t;
+        }
+      })
+    );
   }
 
-  function handleDeleteTodo(todoId) {
-    updateTodos((draft) => {
-      const index = draft.findIndex((t) => t.id === todoId);
-      draft.splice(index, 1);
-    });
+  function handleDeleteTask(taskId) {
+    setTasks(tasks.filter((t) => t.id !== taskId));
   }
 
   return (
     <>
-      <AddTodo onAddTodo={handleAddTodo} />
+      <h1>Prague itinerary</h1>
+      <AddTask onAddTask={handleAddTask} />
       <TaskList
-        todos={todos}
-        onChangeTodo={handleChangeTodo}
-        onDeleteTodo={handleDeleteTodo}
+        tasks={tasks}
+        onChangeTask={handleChangeTask}
+        onDeleteTask={handleDeleteTask}
       />
     </>
   );
 }
+
+let nextId = 3;
+const initialTasks = [
+  { id: 0, text: "Visit Kafka Museum", done: true },
+  { id: 1, text: "Watch a puppet show", done: false },
+  { id: 2, text: "Lennon Wall pic", done: false },
+];
