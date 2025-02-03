@@ -19,7 +19,10 @@ import ReverseField from "./ReverseField.js";
 import ContactManager from "./ContactManager/App.js";
 import Gallery from "./Gallery.js";
 import ContactList from "./ContactList/App.js";
-import TaskApp from "./TaskApp.js";
+import TaskApp from "./TaskApp/App.js";
+import MessengerReducer from "./MessengerReducer/App.js";
+import Page from "./Page/App.js";
+import PlaceImages from "./PlaceImage/App.js";
 
 function App() {
   return (
@@ -52,6 +55,9 @@ function App() {
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/contact-list" element={<ContactList />} />
         <Route path="/task-app" element={<TaskApp />} />
+        <Route path="/messenge-reducer" element={<MessengerReducer />} />
+        <Route path="/page" element={<Page />} />
+        <Route path="/place-images" element={<PlaceImages />} />
       </Routes>
     </Router>
   );
