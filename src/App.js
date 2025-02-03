@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
-import VideoPlayer from "./ManipulatingtheDOMwithRefs/VideoPlayer.js";
-import Page from "./ManipulatingtheDOMwithRefs/Page.js";
-import CatFriends from "./ManipulatingtheDOMwithRefs/CatFriends.js";
+import VideoPlayer from "./ManipulatingtheDOMwithRefs/Challenge1/VideoPlayer.js";
+import Page from "./ManipulatingtheDOMwithRefs/Challenge2/Page.js";
+import CatFriends from "./ManipulatingtheDOMwithRefs/Challenge3/CatFriends.js";
 
 function App() {
   return (
